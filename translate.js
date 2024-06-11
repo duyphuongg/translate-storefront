@@ -20,6 +20,15 @@
     return true;
   }
 
+  function isJsonString(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   function shouldRemoveElement(element) {
     try {
       if (config.mergedSelectorRemove && k(element, config.mergedSelectorRemove)) {
@@ -28,7 +37,7 @@
     } catch (error) { }
     return (!config.mergeNodes || config.mergeNodes.indexOf(element.nodeName) !== -1) || (element.dataset && element.dataset.wgMerge || (config.selectorMerging && element.matches && element.matches(config.selectorMerging)));
   }
-  
+
   function hasOnlyInlineChildNodes(element) {
     return filterValidTextNodes(element, false) && Array.from(element.childNodes).every(childNode => {
       if (!childNode.weglot || !isValidMergeNodes(childNode) || !hasOnlyInlineChildNodes(childNode)) {
